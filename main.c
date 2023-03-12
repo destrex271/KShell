@@ -18,7 +18,6 @@ int getInput(char *command) {
 }
 
 int main(int argc, char *argv[]) {
-  printf("%d %s\n", argc, argv[1]);
   bool exit = false;
   char hostname[200];
 
@@ -34,8 +33,8 @@ int main(int argc, char *argv[]) {
     getcwd(curPath, 512);
     // take input
     printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, user);
-    printf(ANSI_COLOR_RED "@" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, hostname);
+    printf(ANSI_COLOR_BLUE "@" ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, hostname);
     printf(ANSI_COLOR_CYAN " | " ANSI_COLOR_RESET);
     printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, curPath);
     printf(ANSI_COLOR_CYAN " > " ANSI_COLOR_RESET);
