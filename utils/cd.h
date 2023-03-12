@@ -6,8 +6,8 @@
 
 struct stat sb;
 
-int cd(char *abs_path) {
-  int status = stat(abs_path, &sb);
+int cd(char *path) {
+  int status = stat(path, &sb);
   if (status == -1) {
     printf(ANSI_COLOR_RED "Path does not Exist!\n" ANSI_COLOR_RESET);
     return -1;
@@ -16,17 +16,9 @@ int cd(char *abs_path) {
            "Not a Directory!\n" ANSI_COLOR_RESET); // Check if argument is a
                                                    // file or directory
   } else {
-    chdir(abs_path);
+    chdir(path);
     char b[256];
     getcwd(b, 256);
   }
   return 0;
-}
-
-int rel_cd(char *path) {
-  char abs_path[512];
-  getcwd(abs_path, 512);
-  strcat(abs_path, "/");
-  strcat(abs_path, path);
-  return cd(abs_path);
 }

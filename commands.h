@@ -21,11 +21,7 @@ int process_command(char *command) {
   int len = tokenizer(command, strlen(command), tokens);
   char *curCommand = tokens[0];
   if (strcmp(curCommand, "cd") == 0) {
-    if (tokens[1][0] == '/') {
-      cd(tokens[1]);
-    } else {
-      rel_cd(tokens[1]);
-    }
+    cd(tokens[1]);
   } else {
     return -1;
   }

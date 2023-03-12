@@ -7,6 +7,15 @@
 #include "./colors.h"
 #include "./commands.h"
 
+void prompt(char *user, char *hostname, char *curPath) {
+  printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, user);
+  printf(ANSI_COLOR_BLUE "@" ANSI_COLOR_RESET);
+  printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, hostname);
+  printf(ANSI_COLOR_CYAN " | " ANSI_COLOR_RESET);
+  printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, curPath);
+  printf(ANSI_COLOR_CYAN " > " ANSI_COLOR_RESET);
+}
+
 int getInput(char *command) {
   size_t s = 512;
   strcpy(command, "\0");
@@ -32,12 +41,7 @@ int main(int argc, char *argv[]) {
   while (!exit) {
     getcwd(curPath, 512);
     // take input
-    printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, user);
-    printf(ANSI_COLOR_BLUE "@" ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, hostname);
-    printf(ANSI_COLOR_CYAN " | " ANSI_COLOR_RESET);
-    printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, curPath);
-    printf(ANSI_COLOR_CYAN " > " ANSI_COLOR_RESET);
+    prompt(user, hostname, curPath);
     char command[512];
     strcpy(command, "");
     int x = getInput(command);
@@ -46,7 +50,7 @@ int main(int argc, char *argv[]) {
     // Process input
     int status = process_command(command);
     if (status == -1) {
-      printf(ANSI_COLOR_RED "Command Does Not Exist!!\n");
+      printf(ANSI_COLOR_RED "Command Not Found!\n");
     }
     // Give output
   }
