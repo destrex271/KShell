@@ -10,5 +10,5 @@ int tokenizer(char *command, int size, char tokens[10][256]) {
     /* printf("%s", tokens[k]); */
     c = strtok(NULL, " ");
   } while (c != NULL);
-  return k + 1;
+  return k;
 }

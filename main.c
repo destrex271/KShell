@@ -5,15 +5,29 @@
 #include <unistd.h>
 
 #include "./colors.h"
-#include "./commands.h"
+#include "./commands.c"
+#include <signal.h>
 
-void prompt(char *user, char *hostname, char *curPath) {
+// Global Variables
+char *user;
+char hostname[200];
+char curPath[512];
+
+void prompt_t() {
+  printf("%d\n", getpid());
   printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, user);
   printf(ANSI_COLOR_BLUE "@" ANSI_COLOR_RESET);
   printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, hostname);
   printf(ANSI_COLOR_CYAN " | " ANSI_COLOR_RESET);
   printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, curPath);
   printf(ANSI_COLOR_CYAN " > " ANSI_COLOR_RESET);
+}
+
+void signalHandler(int sig_num) {
+  signal(sig_num, signalHandler);
+  printf("\n");
+  prompt_t();
+  fflush(stdout);
 }
 
 int getInput(char *command) {
@@ -27,21 +41,21 @@ int getInput(char *command) {
 }
 
 int main(int argc, char *argv[]) {
+  signal(SIGINT, signalHandler);
+
   bool exit = false;
-  char hostname[200];
 
   // Get Hostname and user
-  char *user = getlogin();
+  user = getlogin();
   gethostname(hostname, 200);
   char homePath[512] = "/home/";
   strcat(homePath, user);
   chdir(homePath);
-  char curPath[512];
 
   while (!exit) {
     getcwd(curPath, 512);
     // take input
-    prompt(user, hostname, curPath);
+    prompt_t();
     char command[512];
     strcpy(command, "");
     int x = getInput(command);
@@ -49,10 +63,10 @@ int main(int argc, char *argv[]) {
       continue;
     // Process input
     int status = process_command(command);
+    // Give output
     if (status == -1) {
       printf(ANSI_COLOR_RED "Command Not Found!\n");
     }
-    // Give output
   }
   return 0;
 }

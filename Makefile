@@ -1,2 +1,2 @@
-output: *.c *.h ./utils/*.h 
-	gcc *.c -o output
+output: *.c *.h ./utils/*.c 
+	gcc -Og main.c -o output
